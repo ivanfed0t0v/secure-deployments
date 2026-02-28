@@ -1,7 +1,0 @@
-services:
-  caddy:
-    extends:
-      file: compose.yml
-      service: caddy
-    build: .
-    image: mycaddy:latest
