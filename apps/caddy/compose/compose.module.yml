@@ -3,5 +3,5 @@ services:
     extends:
       file: compose.yml
       service: caddy
-    image: mycaddy:latest
     build: .
+    image: mycaddy:latest

@@ -1,32 +1,32 @@
 services:
   caddy:
-    # https://hub.docker.com/_/caddy
-    image: docker.io/library/caddy:2.11.1-alpine
+    cap_drop:
+      - ALL
     environment:
       TZ: UTC
       LETSENCRYPT_EMAIL:
-    user: "10000:10001"
-    cap_drop:
-      - ALL
-    security_opt:
-      - no-new-privileges:true
-      - apparmor:docker-default
-    # Ports are commented because it's imposible to override them
-    # See: https://github.com/docker/compose/issues/2260
-    # ports:
-    #   - 80:8080/tcp
-    #   - 443:8443/tcp
-    #   - 443:8443/udp
-    volumes:
-      - ./conf:/etc/caddy:rw
-      - ./data:/data:rw
-    read_only: true
-    tmpfs:
-      - /tmp:rw
-    restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
       interval: 10s
       timeout: 1s
       retries: 3
       start_period: 5s
+    # https://hub.docker.com/_/caddy
+    image: docker.io/library/caddy:2.11.1-alpine
+    # Ports are commented because it's imposible to override them
+    # See: https://github.com/docker/compose/issues/2260
+    # ports:
+    #   - 80:8080/tcp
+    #   - 443:8443/tcp
+    #   - 443:8443/udp # HTTP/3 support
+    read_only: true
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+      - apparmor:docker-default
+    user: "10000:10001"
+    tmpfs:
+      - /tmp:rw
+    volumes:
+      - ./conf:/etc/caddy:rw
+      - ./data:/data:rw
