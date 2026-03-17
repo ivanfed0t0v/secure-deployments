@@ -12,7 +12,7 @@ services:
       retries: 3
       start_period: 5s
     # https://hub.docker.com/_/caddy
-    image: docker.io/library/caddy:2.11.1-alpine
+    image: docker.io/library/caddy:2.11.2-alpine
     # Ports are commented because it's imposible to override them
     # See: https://github.com/docker/compose/issues/2260
     # ports:
