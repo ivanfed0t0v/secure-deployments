@@ -11,7 +11,7 @@ services:
       retries: 3
       start_period: 10s
     # https://hub.docker.com/r/jellyfin/jellyfin
-    image: ghcr.io/jellyfin/jellyfin:10.11.6
+    image: ghcr.io/jellyfin/jellyfin:10.11.8
     read_only: true
     restart: unless-stopped
     security_opt:
