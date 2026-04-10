@@ -1,0 +1,27 @@
+services:
+  vikunja:
+    cap_drop:
+      - ALL
+    environment:
+      TZ: UTC
+      VIKUNJA_SERVICE_SECRET: <openssl rand -hex 64>
+      VIKUNJA_SERVICE_PUBLICURL: https://<the public url where Vikunja is reachable>
+      VIKUNJA_DATABASE_PATH: /db/vikunja.db
+    healthcheck:
+      test: [CMD, /app/vikunja/vikunja, healthcheck]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 30s
+    # https://hub.docker.com/r/vikunja/vikunja
+    image: docker.io/vikunja/vikunja:2.3.0@sha256:f6b80393c1998cd5cd0dc38d24762c59ab4c10000a6f1032ef5b554e262cab93
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+      - apparmor:docker-default
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev
+    user: 10012:10012
+    volumes:
+      - ./files:/app/vikunja/files:rw
+      - ./db:/db:rw
